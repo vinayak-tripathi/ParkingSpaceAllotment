@@ -195,6 +195,14 @@ public class checkout extends javax.swing.JFrame {
 
     private void checkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkoutActionPerformed
         // TODO add your handling code here:
+        int t = type.getSelectedIndex();
+        String table=null;
+        if(t ==0){
+            table = "Two";
+        }
+        else{
+            table = "Four";
+        }
         process pr = new process();
         String vehi = veh.getText();
         String slot = slt.getText();
@@ -209,19 +217,17 @@ public class checkout extends javax.swing.JFrame {
                 qry = "where slot = "+ slot;
             }
             else{
-                qry = "where vechileNo = "+ vehi;
+                qry = "where vehicleNo = '"+ vehi+"'";
             }
             System.out.println(qry);
-            pr.out(con, qry);
+            pr.out(con, table, qry);
         }
-       
     }//GEN-LAST:event_checkoutActionPerformed
 
     private void closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeActionPerformed
         try {
             // TODO add your handling code here:
             con.close();
-
         } catch (SQLException ex) {
             Logger.getLogger(booking.class.getName()).log(Level.SEVERE, null, ex);
         }
