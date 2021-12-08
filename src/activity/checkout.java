@@ -4,7 +4,7 @@
  */
 package activity;
 
-
+import java.sql.Statement;
 import database.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -94,8 +94,8 @@ public class checkout extends javax.swing.JFrame {
             }
         });
 
-        details.setEditable(false);
         details.setColumns(20);
+        details.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         details.setRows(5);
         jScrollPane1.setViewportView(details);
 
@@ -116,13 +116,13 @@ public class checkout extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(10, 10, 10)
                 .addComponent(type, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(148, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
-                        .addGap(129, 129, 129))
+                        .addGap(117, 117, 117))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -138,8 +138,8 @@ public class checkout extends javax.swing.JFrame {
                                 .addGap(10, 10, 10)
                                 .addComponent(slt, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,7 +171,7 @@ public class checkout extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(51, 51, 51)
                         .addComponent(jScrollPane1)))
-                .addGap(31, 31, 31))
+                .addGap(45, 45, 45))
         );
 
         pack();
@@ -219,8 +219,32 @@ public class checkout extends javax.swing.JFrame {
             else{
                 qry = "where vehicleNo = '"+ vehi+"'";
             }
+            int slt;
+            Long pho;
+            String name, veh,timein,timeout,type;
+            Float charge;
             System.out.println(qry);
-            pr.out(con, table, qry);
+            String vt = pr.out(con, table, qry);
+            try {
+                Statement st3 = con.createStatement();
+                ResultSet rs = st3.executeQuery("Select * from history WHERE timeout= '"+vt+"'");
+                while(rs.next()){
+                veh = rs.getString("vehicleNo");
+                name = rs.getString("name");
+                pho = rs.getLong("phone");
+                slt = rs.getInt("slot");
+                type = rs.getString("type");
+                timein = rs.getString("timein");
+                timeout = rs.getString("timeout");
+                charge= rs.getFloat("charge");
+                details.setText("Vehcile No.: "+veh+"\nUser Name: "+name+"\nSlot:             "+slt+"\nType:            "+type+"\nTime In:        "+timein+"\nTime Out:     "+timeout+"\nTotal Charge Payable: ₹ "+charge+"/-");
+            }
+//            details.setText((String)detail.get(0)+"\n"+(String)detail.get(1)+"\n"+(String)detail.get(2)+"\n"+(String)detail.get(2)+"\n"+(Long)detail.get(3));
+            } 
+            catch (SQLException ex) {
+                Logger.getLogger(checkout.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
     }//GEN-LAST:event_checkoutActionPerformed
 

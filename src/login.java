@@ -5,10 +5,9 @@ import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import activity.MainPage;
 import database.connect;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author Vinayak
  */
 
 public class login extends javax.swing.JFrame {
